@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pandas
+numpy
+scipy
+scikit-learn
+ydata-profiling
+python-multipart
+anthropic
+python-dotenv

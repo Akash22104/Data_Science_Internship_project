@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto Data Analyst - AI-Powered Data Insights</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">🤖 Auto Data Analyst</div>
+      <p class="tagline">Transform your data into actionable insights instantly</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="upload-card" id="upload-area">
+      <input type="file" id="csv-input" accept=".csv" hidden>
+      <div class="upload-icon">📁</div>
+      <h2>Upload Your Data</h2>
+      <p>Drag & drop your CSV file here or <button class="browse-btn" onclick="document.getElementById('csv-input').click()">browse files</button></p>
+      <p class="hint">📊 Supports CSV files • Max 50MB • Instant analysis</p>
+    </div>
+
+    <div id="loading" class="hidden">
+      <div class="spinner"></div>
+      <p class="loading-text">✨ Analyzing your data...</p>
+    </div>
+
+    <div id="results" class="hidden">
+      <div class="results-toolbar">
+        <button class="toolbar-btn" id="edit-btn" onclick="toggleEditMode()">✏️ Edit Dataset</button>
+        <button class="toolbar-btn" id="columns-btn" onclick="openColumnManager()">⚙️ Manage Columns</button>
+        <button class="toolbar-btn" id="download-btn" onclick="downloadModifiedData()" style="display:none;">⬇️ Download Modified CSV</button>
+        <button class="toolbar-btn" id="cancel-btn" onclick="cancelEditMode()" style="display:none;">❌ Discard Changes</button>
+      </div>
+      
+      <!-- Column Manager Modal -->
+      <div id="column-modal" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Manage Columns</h3>
+            <button class="close-btn" onclick="closeColumnManager()">✕</button>
+          </div>
+          <div class="modal-body" id="column-list"></div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" onclick="applyColumnChanges()">Apply Changes</button>
+            <button class="btn btn-secondary" onclick="closeColumnManager()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div class="results-container">
+        <section id="info-section"></section>
+        <section id="overview-section"></section>
+        <section id="data-editor-section"></section>
+        <section id="profile-section"></section>
+        <section id="ml-section"></section>
+        <section id="charts-section"></section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Auto Data Analyst • Powered by advanced analytics & machine learning</p>
+  </footer>
+
+  <!-- Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
