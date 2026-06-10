@@ -8,12 +8,13 @@ from profiler import profile_dataframe
 from ml_engine import run_ml
 from prompt_builder import build_prompt
 from llm_client import get_insights
+from config import settings
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.CORS_ALLOW_ORIGINS or ["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -1,5 +1,10 @@
 const input = document.getElementById('csv-input');
 const uploadArea = document.getElementById('upload-area');
+const APP_CONFIG = window.APP_CONFIG || {};
+const API_BASE_URL = APP_CONFIG.API_BASE_URL || 'http://localhost:8000';
+const ANALYZE_ENDPOINT = APP_CONFIG.ANALYZE_ENDPOINT || '/analyze';
+const MAX_UPLOAD_SIZE_MB = APP_CONFIG.MAX_UPLOAD_SIZE_MB || 50;
+const REQUEST_TIMEOUT_MS = APP_CONFIG.REQUEST_TIMEOUT_MS || 60000;
 
 // ========== TOAST NOTIFICATIONS ==========
 function showToast(message, type = 'info', duration = 3000) {
@@ -28,9 +33,9 @@ function validateFile(file) {
   }
 
   // Check file size (max 50MB)
-  const maxSize = 50 * 1024 * 1024;
+  const maxSize = MAX_UPLOAD_SIZE_MB * 1024 * 1024;
   if (file.size > maxSize) {
-    showToast(`❌ File too large! Max size is 50MB, got ${(file.size / 1024 / 1024).toFixed(2)}MB`, 'error');
+    showToast(`❌ File too large! Max size is ${MAX_UPLOAD_SIZE_MB}MB, got ${(file.size / 1024 / 1024).toFixed(2)}MB`, 'error');
     return false;
   }
 
@@ -96,10 +101,10 @@ async function uploadFile(file) {
   };
 
   try {
-    const res = await fetch('http://localhost:8000/analyze', {
+    const res = await fetch(`${API_BASE_URL}${ANALYZE_ENDPOINT}`, {
       method: 'POST',
       body: formData,
-      timeout: 60000
+      timeout: REQUEST_TIMEOUT_MS
     });
 
     if (!res.ok) {
@@ -142,7 +147,7 @@ async function uploadFile(file) {
     if (err.message.includes('Backend error')) {
       errorMsg += 'Backend server error - check console';
     } else if (err.message.includes('timeout') || err.message.includes('ECONNREFUSED')) {
-      errorMsg += 'Is the backend running on http://localhost:8000?';
+      errorMsg += `Is the backend running on ${API_BASE_URL}?`;
     } else {
       errorMsg += err.message;
     }
