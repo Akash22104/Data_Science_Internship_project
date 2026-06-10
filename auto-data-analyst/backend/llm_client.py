@@ -2,7 +2,10 @@ import anthropic
 import json
 from config import settings
 
-client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY or None)
+if settings.ANTHROPIC_API_KEY:
+    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+else:
+    client = anthropic.Anthropic()
 
 def get_insights(prompt: str) -> dict:
     try:
