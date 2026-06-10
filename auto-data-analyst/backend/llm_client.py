@@ -1,17 +1,16 @@
 import anthropic
 import json
-import os
-from dotenv import load_dotenv
+from config import settings
 
-# Load environment variables from .env file
-load_dotenv()
-
-client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from env
+if settings.ANTHROPIC_API_KEY:
+    client = anthropic.Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+else:
+    client = anthropic.Anthropic()
 
 def get_insights(prompt: str) -> dict:
     try:
         message = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=settings.ANTHROPIC_MODEL,
             max_tokens=2048,
             messages=[{"role": "user", "content": prompt}]
         )
